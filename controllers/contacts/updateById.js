@@ -1,4 +1,4 @@
-const contactOperations = require("../../models/contacts");
+const contactOperations = require("../../models/contact");
 const Joi = require("joi");
 
 const contactSchema = Joi.object({

@@ -1,6 +1,33 @@
 const fs = require("fs/promises");
 const path = require("path");
 const { v4 } = require("uuid");
+const {
+  handleSchemaValidationErrors,
+} = require("../helpers/handleSchemaValidationErrors");
+const { Schema, model } = require("mongoose");
+const contactSchema = Schema(
+  {
+    name: { type: String, required: [true, "Set name for contact"] },
+    email: { type: String },
+    phone: {
+      type: String,
+      required: [true, "Set phone for contact"],
+      unique: true,
+    },
+    favorite: { type: Boolean, default: false },
+  },
+  {
+    writeConcern: {
+      w: "majority",
+      j: true,
+      wtimeout: 1000,
+    },
+  }
+);
+
+contactSchema.post("save", handleSchemaValidationErrors);
+
+const Contact = model("contact", contactSchema);
 
 const filePath = path.join(__dirname, "contacts.json");
 
@@ -49,6 +76,7 @@ const updateContact = async (contactId, body) => {
 };
 
 module.exports = {
+  Contact,
   listContacts,
   getContactById,
   removeContact,
