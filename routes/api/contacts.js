@@ -4,16 +4,17 @@ const express = require("express");
 // const { contactSchema } = require("../../schemas/index");
 // const validateMiddleware = validation(contactSchema);
 const router = express.Router();
+const isValidId = require("../../middlewars/IsValidId");
 
 const { contacts } = require("../../controllers/index");
 router.get("/", contacts.getAll);
 
-router.get("/:contactId");
+router.get("/:contactId", isValidId, contacts.getById);
 
 router.post("/", contacts.add);
 
-router.delete("/:contactId", contacts.removeById);
+router.delete("/:contactId", isValidId, contacts.removeById);
 
-router.put("/:contactId", contacts.updateById);
+router.put("/:contactId", isValidId, contacts.updateById);
 
 module.exports = router;

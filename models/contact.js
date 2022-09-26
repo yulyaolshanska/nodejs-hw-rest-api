@@ -1,6 +1,6 @@
 const fs = require("fs/promises");
 const path = require("path");
-const { v4 } = require("uuid");
+
 const {
   handleSchemaValidationErrors,
 } = require("../helpers/handleSchemaValidationErrors");
@@ -37,13 +37,6 @@ const listContacts = async () => {
   return contacts;
 };
 
-const getContactById = async (contactId) => {
-  const data = await fs.readFile(filePath);
-  const contacts = JSON.parse(data);
-  const contact = contacts.find((it) => it.id === contactId);
-  return contact;
-};
-
 const removeContact = async (contactId) => {
   const contacts = await listContacts();
   const idx = contacts.findIndex((contact) => contact.id === contactId);
@@ -53,14 +46,6 @@ const removeContact = async (contactId) => {
   const [removeContact] = contacts.splice(idx, 1);
   await fs.writeFile(filePath, JSON.stringify(contacts));
   return removeContact;
-};
-
-const addContact = async (body) => {
-  const newContact = { ...body, id: v4() };
-  const contacts = await listContacts();
-  contacts.push(newContact);
-  fs.writeFile(filePath, JSON.stringify(contacts));
-  return newContact;
 };
 
 const updateContact = async (contactId, body) => {
@@ -78,8 +63,6 @@ const updateContact = async (contactId, body) => {
 module.exports = {
   Contact,
   listContacts,
-  getContactById,
   removeContact,
-  addContact,
   updateContact,
 };
