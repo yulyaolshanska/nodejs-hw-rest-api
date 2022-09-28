@@ -6,7 +6,7 @@ const contactSchema = Joi.object({
   email: Joi.string(),
   phone: Joi.string(),
   favorite: Joi.boolean(),
-});
+}).min(1);
 const updateById = async (req, res, next) => {
   try {
     const { error } = contactSchema.validate(req.body);
