@@ -1,15 +1,13 @@
 const { Contact } = require("../../models/contact");
 const Joi = require("joi");
 
-const contactSchema = Joi.object({
-  name: Joi.string(),
-  email: Joi.string(),
-  phone: Joi.string(),
-  favorite: Joi.boolean(),
-}).min(1);
-const updateById = async (req, res, next) => {
+const updateFavoriteSchema = Joi.object({
+  favorite: Joi.boolean().required(),
+});
+
+const updateStatusContact = async (req, res, next) => {
   try {
-    const { error } = contactSchema.validate(req.body);
+    const { error } = updateFavoriteSchema.validate(req.body);
     if (error) {
       error.status = 400;
       throw error;
@@ -19,8 +17,8 @@ const updateById = async (req, res, next) => {
       new: true,
     });
     if (!result) {
-      const error = new Error(`Contact with id ${contactId} not found`);
-      error.status = 404;
+      const error = new Error(`missing field favorite`);
+      error.status = 400;
       throw error;
     }
 
@@ -30,4 +28,4 @@ const updateById = async (req, res, next) => {
   }
 };
 
-module.exports = updateById;
+module.exports = updateStatusContact;
