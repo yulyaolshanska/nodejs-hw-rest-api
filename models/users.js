@@ -28,8 +28,8 @@ const userSchema = new Schema(
 const User = model("user", userSchema);
 
 const joiRegisterSchema = Joi.object({
-  password: Joi.string().required().min(6),
   email: Joi.string().email().required(),
+  password: Joi.string().required().min(6),
   subscription: Joi.string(),
   token: Joi.string(),
 });
