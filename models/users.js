@@ -27,7 +27,7 @@ const userSchema = new Schema(
 
 const User = model("user", userSchema);
 
-const joiSchema = Joi.object({
+const joiRegisterSchema = Joi.object({
   password: Joi.string().required().min(6),
   email: Joi.string().email().required(),
   subscription: Joi.string(),
@@ -36,5 +36,5 @@ const joiSchema = Joi.object({
 
 module.exports = {
   User,
-  joiSchema,
+  joiRegisterSchema,
 };
