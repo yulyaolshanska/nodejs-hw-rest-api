@@ -24,7 +24,8 @@ const contactSchema = Schema(
       j: true,
       wtimeout: 1000,
     },
-  }
+  },
+  { versionKey: false, timestamps: true }
 );
 
 contactSchema.post("save", handleSchemaValidationErrors);
