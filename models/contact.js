@@ -1,7 +1,7 @@
 const {
   handleSchemaValidationErrors,
 } = require("../helpers/handleSchemaValidationErrors");
-const { Schema, model } = require("mongoose");
+const { Schema, model, SchemaTypes } = require("mongoose");
 
 const contactSchema = Schema(
   {
@@ -13,6 +13,10 @@ const contactSchema = Schema(
       unique: true,
     },
     favorite: { type: Boolean, default: false },
+    owner: {
+      type: SchemaTypes.ObjectId,
+      ref: "user",
+    },
   },
   {
     writeConcern: {
@@ -20,7 +24,8 @@ const contactSchema = Schema(
       j: true,
       wtimeout: 1000,
     },
-  }
+  },
+  { versionKey: false, timestamps: true }
 );
 
 contactSchema.post("save", handleSchemaValidationErrors);

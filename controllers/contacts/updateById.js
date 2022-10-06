@@ -1,23 +1,15 @@
 const { Contact } = require("../../models/contact");
-const Joi = require("joi");
 
-const contactSchema = Joi.object({
-  name: Joi.string(),
-  email: Joi.string(),
-  phone: Joi.string(),
-  favorite: Joi.boolean(),
-}).min(1);
 const updateById = async (req, res, next) => {
   try {
-    const { error } = contactSchema.validate(req.body);
-    if (error) {
-      error.status = 400;
-      throw error;
-    }
     const { contactId } = req.params;
-    const result = await Contact.findByIdAndUpdate(contactId, req.body, {
-      new: true,
-    });
+    const result = await Contact.findOneAndUpdate(
+      { _id: contactId, owner: req.user._id },
+      req.body,
+      {
+        new: true,
+      }
+    );
     if (!result) {
       const error = new Error(`Contact with id ${contactId} not found`);
       error.status = 404;
