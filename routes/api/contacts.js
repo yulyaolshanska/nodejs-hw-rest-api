@@ -1,12 +1,11 @@
 const express = require("express");
-const { validation, auth } = require("../../middlewars");
+const { validation, auth, isValidId } = require("../../middlewars");
 const {
   addContactSchema,
   updateSchema,
   updateFavoriteSchema,
 } = require("../../schemas/contactsSchemas");
 const router = express.Router();
-const isValidId = require("../../middlewars/IsValidId");
 
 const { contacts } = require("../../controllers/index");
 router.get("/", auth, contacts.getAll);
