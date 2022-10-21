@@ -7,7 +7,7 @@ const sendEmail = async (data) => {
     await sgMail.send(msg);
     return true;
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 };
 

@@ -8,7 +8,6 @@ const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
-    console.log("user", user);
     if (!user) {
       throw new Unauthorized("Email or password is wrong");
     }

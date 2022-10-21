@@ -10,8 +10,6 @@ const resendVerifyEmail = async (req, res, next) => {
       throw new NotFound("User not found");
     }
     if (user.verify) {
-      console.log("user", user);
-
       res
         .status(400)
         .json({ messsage: "Verification has already been passed" });
@@ -22,11 +20,14 @@ const resendVerifyEmail = async (req, res, next) => {
       subject: "Confirm your email",
       html: `<a href="http://localhost:3000/api/users/verify/${user.verificationToken}">Click to confirm your email</a>`,
     };
+
     await sendEmail(msg);
     res.status(200).json({
       message: "Verification email sent",
     });
-  } catch (error) {}
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = resendVerifyEmail;
