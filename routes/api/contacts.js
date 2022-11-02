@@ -7,21 +7,23 @@ const {
 } = require("../../schemas/contactsSchemas");
 const router = express.Router();
 
-const { contacts } = require("../../controllers/index");
-router.get("/", auth, contacts.getAll);
+const { contacts } = require("../../controllers");
+const { ctrlWrapper } = require("../../helpers");
+
+router.get("/", auth, ctrlWrapper(contacts.getAll));
 
 router.get("/:contactId", auth, isValidId, contacts.getById);
 
-router.post("/", auth, validation(addContactSchema), contacts.add);
+router.post("/", auth, validation(addContactSchema), ctrlWrapper(contacts.add));
 
-router.delete("/:contactId", auth, isValidId, contacts.removeById);
+router.delete("/:contactId", auth, isValidId, ctrlWrapper(contacts.removeById));
 
 router.put(
   "/:contactId",
   auth,
   isValidId,
   validation(updateSchema),
-  contacts.updateById
+  ctrlWrapper(contacts.updateById)
 );
 
 router.patch(
@@ -29,7 +31,7 @@ router.patch(
   auth,
   isValidId,
   validation(updateFavoriteSchema),
-  contacts.updateStatusContact
+  ctrlWrapper(contacts.updateStatusContact)
 );
 
 module.exports = router;
