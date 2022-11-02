@@ -1,6 +1,6 @@
-const getCurrent = (req, res, next) => {
+const getCurrent = (req, res) => {
   const { email, subscription } = req.user;
-  res.status(200).json({
+  res.json({
     email,
     subscription,
   });
